@@ -4,8 +4,7 @@ const redis = require("redis");
 const client = redis.createClient();
 
 const { promisify } = require("util");
-const { stringify } = require('querystring');
-// const getAsync = promisify(client.get).bind(client);
+// const { stringify } = require('querystring');
 const setAsync = promisify(client.set).bind(client);
 
 
@@ -24,6 +23,13 @@ async function fetchGithub(){
         console.log(jobs.length)
 
         resultCount = jobs.length
+
+        let cnt = 0;
+        jobs.forEach(job => {
+            job['myid'] = cnt
+            cnt++
+        });
+
         allJobs.push(...jobs)
         onPage++
     }
@@ -53,6 +59,7 @@ async function fetchGithub(){
     const success = await setAsync('github', JSON.stringify(jrJobs))
 
     console.log({success})
+    console.log(allJobs[0])
     
 }
 

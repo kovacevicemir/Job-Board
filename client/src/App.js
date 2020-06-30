@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import Typography from '@material-ui/core/Typography';
 import Jobs from './Jobs'
 
 function App() {
@@ -19,8 +18,6 @@ function App() {
   const fetchJobs = async (updatejobs) =>{
     const res = await fetch(JOB_API_URL)
     let json = await res.json()
-
-    console.log({json})
 
     //updateState
     updatejobs(json)
