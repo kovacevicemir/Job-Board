@@ -3,6 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from '@material-ui/core/styles';
 import Pagination from "@material-ui/lab/Pagination";
 import Job from "./Job";
+import JobModal from './JobModal'
 
 // hellper for material ui
 const useStyles = makeStyles((theme) => ({
@@ -17,13 +18,34 @@ const useStyles = makeStyles((theme) => ({
 function Jobs({ jobs }) {
   const classes = useStyles();
 
+  //pagination state
   const [TotalPages, setTotalPages] = useState(0)
   const [Page, setPage] = useState([])
   const [pageNo, setPageNo] = useState(0)
-  
+
   const changePage = (e,page) =>{
     setPageNo(page)
   }
+
+  //modal state
+  const [open, setOpen] = React.useState(false);
+  const [currentJob, setCurrentJob] = React.useState({})
+  
+  //modal handlers
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const selectJob = (job) =>{
+    console.log('kurcina')
+    setOpen(true)
+    setCurrentJob(job)
+  }
+
    
   useEffect(()=>{
 
@@ -36,18 +58,25 @@ function Jobs({ jobs }) {
 
   },[jobs, pageNo])
 
-
   
   return (
     <div className="jobs">
       <Typography variant="h4" component="h1">Entry Level Software Jobs</Typography>
 
       {
-        Page.map((job) => <Job job={job} key={job.id} />)
+        Page.map((job) => <Job job={job}  key={job.id} onClick={() => {
+          console.log('react')
+          setCurrentJob(job)
+          setOpen(true)
+        }} />)
       }
 
       <Typography>Page: {Page.currentPage}</Typography>
       <Pagination count={TotalPages} page={pageNo} onChange={changePage} />
+
+      {/* Modal */}
+        <JobModal handleClose={handleClose} job={currentJob} handleClickOpen={handleClickOpen} open={open} />
+      {/* Modal-end */}
 
     </div>
 

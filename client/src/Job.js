@@ -2,10 +2,10 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography';
 
 
-function Job({job}) {
+function Job({job,onClick}) {
 
     return (
-        <div className='job'>
+        <div className='job' onClick = {onClick}>
             <div>
                 <Typography variant='h5'>{job.title}</Typography>
                 <Typography variant='h6'>{job.company}</Typography>
